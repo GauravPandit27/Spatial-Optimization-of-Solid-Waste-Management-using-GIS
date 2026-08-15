@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Management GIS Dashboard</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>SANGAM GIS</h1>
+                <p>Advanced Spatial Analytics • Final Year</p>
+                <div class="header-buttons">
+                    <button id="btn-summary" class="btn-primary">
+                        <span class="btn-text">METHODOLOGY</span>
+                    </button>
+                    <button id="btn-analytics" class="btn-secondary">
+                        <span class="btn-text">BoQ & ANALYTICS</span>
+                    </button>
+                </div>
+                <button id="btn-historical" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 1px; cursor: pointer; background: rgba(0,255,102,0.1); color: #00FF66; border: 1px solid rgba(0,255,102,0.5); box-shadow: 0 0 15px rgba(0,255,102,0.15); transition: all 0.3s;" onmouseover="this.style.background='rgba(0,255,102,0.2)'" onmouseout="this.style.background='rgba(0,255,102,0.1)'">
+                    <span class="btn-text">KUMBH MELA HISTORICAL STATS</span>
+                </button>
+            </div>
+            
+            <div class="control-group">
+                <h3>Phase 1: Base Operations</h3>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-minibins" checked>
+                    <span class="slider minibins-slider"></span>
+                    <span class="toggle-label">Mini-Bin Network (High Density)</span>
+                </label>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-bins" checked>
+                    <span class="slider"></span>
+                    <span class="toggle-label">Primary Collection Hubs</span>
+                </label>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-ghats" checked>
+                    <span class="slider"></span>
+                    <span class="toggle-label">Ghats & Critical Zones</span>
+                </label>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-heatmap">
+                    <span class="slider heatmap-slider"></span>
+                    <span class="toggle-label">Pop. Density Heatmap</span>
+                </label>
+            </div>
+
+            <div class="control-group">
+                <h3>Phase 2: Spatial Buffer AI</h3>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-buffer">
+                    <span class="slider buffer-slider"></span>
+                    <span class="toggle-label">250m Hub Catchment Area</span>
+                </label>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-river">
+                    <span class="slider river-slider"></span>
+                    <span class="toggle-label">River Protection (150m)</span>
+                </label>
+            </div>
+            
+            <div class="control-group">
+                <h3>Phase 3: Logistics Routing</h3>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-route1">
+                    <span class="slider route1-slider"></span>
+                    <span class="toggle-label">North Vector (Route Alpha)</span>
+                </label>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-route2">
+                    <span class="slider route2-slider"></span>
+                    <span class="toggle-label">South Vector (Route Beta)</span>
+                </label>
+            </div>
+
+            <div class="control-group">
+                <h3>Phase 4: Optimization & IoT</h3>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-gaps">
+                    <span class="slider gap-slider"></span>
+                    <span class="toggle-label">Highlight Unserved Gaps</span>
+                </label>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-station">
+                    <span class="slider station-slider"></span>
+                    <span class="toggle-label">Central Transfer Hub</span>
+                </label>
+                <label class="toggle-btn">
+                    <input type="checkbox" id="toggle-iot">
+                    <span class="slider iot-slider"></span>
+                    <span class="toggle-label">Start Live IoT Simulation</span>
+                </label>
+            </div>
+            
+            <div class="stats-panel">
+                <div class="stat">
+                    <span class="stat-value" id="waste-val">3,450</span>
+                    <span class="stat-label">Total Waste (kg)</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="coverage-val">72%</span>
+                    <span class="stat-label">Zone Coverage</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Map Area -->
+        <main class="map-container">
+            <div id="map"></div>
+            <!-- Dynamic HUD Overlay -->
+            <div class="hud-overlay">
+                <div class="hud-item">[ SYS.ONLINE ] SATELLITE IMAGERY ACTIVE</div>
+                <div class="hud-item right">LAT: 25.43° N | LON: 81.88° E</div>
+            </div>
+        </main>
+
+        <!-- Analytics Slide-out Panel -->
+        <div id="analytics-panel" class="analytics-panel hidden">
+            <div class="analytics-header">
+                <h2>ANALYTICS & BoQ</h2>
+                <button id="btn-close-analytics" class="close-btn">&times;</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="wasteChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="budgetChart"></canvas>
+            </div>
+            <div class="boq-summary">
+                <h3>Estimated Project Cost</h3>
+                <h2 class="total-cost">₹12,45,000</h2>
+                <p>Includes smart bins, transfer station setup, and 1-year IoT maintenance.</p>
+            </div>
+        </div>
+        
+        <!-- Project Summary Modal -->
+        <div id="summary-modal" class="modal-overlay hidden">
+            <div class="modal-content glass-effect">
+                <div class="modal-header">
+                    <h2>PROJECT SPECIFICATION</h2>
+                    <button id="btn-close-modal" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="intro-text">Advanced Geographic Information System mapping for optimizing Solid Waste Management logistics. By employing spatial buffer analysis, we aim to eliminate unserved "gap areas" and propose multi-vector logistical routes to minimize environmental impact.</p>
+                    
+                    <div class="flowchart-container">
+                        <div class="flow-step">
+                            <div class="step-num">01</div>
+                            <div class="step-text">
+                                <h4>Data Aggregation</h4>
+                                <p>Analyzed floating population using CPHEEO norms. Satellite mapping of Ghats, Camps, and Bins.</p>
+                            </div>
+                        </div>
+                        <div class="flow-connector">│</div>
+                        <div class="flow-step">
+                            <div class="step-num">02</div>
+                            <div class="step-text">
+                                <h4>Spatial Computations</h4>
+                                <p>Executed 50m Service Area Buffers and River Protection Exclusion Zones to protect water bodies.</p>
+                            </div>
+                        </div>
+                        <div class="flow-connector">│</div>
+                        <div class="flow-step">
+                            <div class="step-num">03</div>
+                            <div class="step-text">
+                                <h4>Optimization Protocol</h4>
+                                <p>Identified critical gaps requiring 1100L bins. Generated dynamic logistical pathways (Alpha & Beta).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Stats Modal -->
+        <div id="historical-modal" class="modal-overlay hidden">
+            <div class="modal-content glass-effect">
+                <div class="modal-header">
+                    <h2 style="color: #00FF66; text-shadow: 0 0 10px rgba(0,255,102,0.4);">KUMBH MELA 2019 DATA</h2>
+                    <button id="btn-close-historical" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+                        <div class="stat" style="border-color: rgba(0,255,102,0.3);">
+                            <span class="stat-value" style="color: #00FF66;">240M+</span>
+                            <span class="stat-label">Total Visitors (49 Days)</span>
+                        </div>
+                        <div class="stat" style="border-color: rgba(0,255,102,0.3);">
+                            <span class="stat-value" style="color: #00FF66;">18,000</span>
+                            <span class="stat-label">Tonnes of Waste Generated</span>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #fff; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">System Estimated Improvements</h3>
+                    <ul style="list-style: none; padding: 0; color: #CBD5E1; font-size: 14px; line-height: 1.8;">
+                        <li style="margin-bottom: 10px;">✅ <strong style="color: #00E5FF;">30% Reduction in Transport Costs</strong> due to IoT-based dynamic routing.</li>
+                        <li style="margin-bottom: 10px;">✅ <strong style="color: #00E5FF;">0% Overflowing Bins</strong> with real-time sensor alerts avoiding pile-ups.</li>
+                        <li style="margin-bottom: 10px;">✅ <strong style="color: #00E5FF;">100% River Protection Compliance</strong> by strictly enforcing the 150m No-Dump Zone.</li>
+                        <li style="margin-bottom: 10px;">✅ <strong style="color: #00E5FF;">Optimized Placement</strong> utilizing the Population Density Heatmap to deploy larger 1100L bins in critical gap areas.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Heatmap Plugin -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
