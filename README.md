@@ -7,7 +7,7 @@ This repository contains the source code and spatial analysis scripts for a Fina
 Using the 2019 Kumbh Mela (which saw 240+ million visitors and generated over 18,000 tonnes of waste) as a historical baseline, this project proposes a dynamic, IoT-integrated GIS model to achieve 100% geographic coverage and minimize logistical costs.
 
 ## Live Deployment
-🌍 **[View the Live GIS Dashboard](https://spatial-optimization-of-solid-waste-management-using-gis.vercel.app/)** *(Replace with your actual Vercel link)*
+🌍 **[View the Live GIS Dashboard]([https://spatial-optimization-of-solid-waste-management-using-gis.vercel.app](https://spatial-optimization-of-solid-waste.vercel.app/)/)** **
 
 ## Key Features
 * **Spatial Buffer AI:** Computes 250m service catchment areas around Primary Collection Hubs to identify unserved critical gaps in real-time.
