@@ -1,8 +1,6 @@
 # Spatial Optimization of Solid Waste Management using GIS
 **A Case Study of the Maha Kumbh Mela at Sangam, Prayagraj**
 
-![GIS Dashboard](Coverage_Report_Map.png)
-
 ## Overview
 This repository contains the source code and spatial analysis scripts for a Final Year Civil Engineering project focused on optimizing Municipal Solid Waste (MSW) logistics for extreme high-density floating populations. 
 
