@@ -170,3 +170,60 @@ input:checked + .station-slider:before { background-color: #FACC15; box-shadow: 
 .sensor-safe { box-shadow: 0 0 15px #00FF66, 0 0 30px #00FF66 !important; background-color: #00FF66 !important; }
 .sensor-warning { box-shadow: 0 0 15px #FACC15, 0 0 30px #FACC15 !important; background-color: #FACC15 !important; }
 .sensor-critical { box-shadow: 0 0 15px #FF0044, 0 0 30px #FF0044 !important; background-color: #FF0044 !important; animation: pulseRed 1s infinite; }
+
+/* =======================================================================
+   RESPONSIVE MOBILE DESIGN
+   ======================================================================= */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column-reverse; /* Map on top, sidebar controls on bottom */
+    }
+    .sidebar {
+        width: 100%;
+        height: 50vh;
+        padding: 20px 15px;
+        border-right: none;
+        border-top: 1px solid rgba(0, 229, 255, 0.2);
+    }
+    .map-container {
+        width: 100%;
+        height: 50vh;
+        flex: none;
+    }
+    .analytics-panel {
+        width: 100%;
+        padding: 20px 15px;
+        border-left: none;
+        border-top: 1px solid rgba(255, 138, 0, 0.3);
+    }
+    .modal-content.glass-effect {
+        width: 95%;
+        padding: 20px;
+    }
+    .sidebar-header h1 {
+        font-size: 28px;
+    }
+    .stats-panel {
+        flex-direction: column;
+    }
+    .hud-overlay {
+        flex-direction: column;
+        gap: 5px;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+    }
+    .hud-item {
+        font-size: 9px;
+        text-align: center;
+    }
+    /* Flowchart steps for mobile modal */
+    .flow-step {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+    .flow-connector {
+        padding-left: 17px;
+    }
+}
